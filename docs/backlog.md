@@ -4,7 +4,7 @@ Mantido pelo agente `backlog`.
 
 ## M1 — Core backend e banco Neon
 Critério: `dotnet build` da solution passa; a API sobe localmente apontando para um branch do Neon, aplica as migrations no startup e as 4 tabelas (Project, Sprint, WorkItem, CommitRecord) existem no banco.
-Status: em andamento
+Status: concluído
 
 | ID | Task | Agente | Depende de | Status |
 | :--- | :--- | :--- | :--- | :--- |
@@ -15,8 +15,8 @@ Status: em andamento
 | T-005 | `MOpsDbContext` em `MOps.Infrastructure` com Npgsql, mapeamentos (chaves, FKs, índices, enums) e extensão de DI que lê `DefaultConnection`; build passa | backend-dotnet | T-003 | feito |
 | T-006 | Implementações dos repositórios em `MOps.Infrastructure` e registro na DI; build passa | backend-dotnet | T-004, T-005 | feito |
 | T-007 | Migration inicial `InitialCreate` com as 4 tabelas + migration-reviewer | backend-dotnet | T-005 | feito |
-| T-008 | `Program.cs` da API registra a Infrastructure e roda `Database.MigrateAsync()` no startup; endpoint `/health` responde 200 | backend-dotnet | T-006, T-007 | a fazer |
-| T-009 | Subir a API local contra o branch Neon e conferir que as tabelas foram criadas | gerente | T-002, T-008 | a fazer |
+| T-008 | `Program.cs` da API registra a Infrastructure e roda `Database.MigrateAsync()` no startup; endpoint `/health` responde 200 | backend-dotnet | T-006, T-007 | feito |
+| T-009 | Subir a API local contra o branch Neon e conferir que as tabelas foram criadas | gerente | T-002, T-008 | feito |
 
 ## M2 — API REST e endpoint de commits
 Critério: CRUDs de Projects, Sprints e WorkItems respondem corretamente; `POST /api/commits/hook` com mensagem contendo `#<id>` grava um CommitRecord vinculado ao WorkItem.
