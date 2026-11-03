@@ -1,0 +1,56 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Estado atual
+
+O repositório ainda não tem código. O único arquivo é a especificação, `documenta_o_de_especifica_o_do_m_ops.md`. Ela é a fonte da verdade para escopo, stack e ordem de construção. Leia-a antes de começar uma fase. Quando a solution existir, substitua esta seção pelos comandos reais de build, execução, testes e migrations.
+
+## O que é o M-Ops
+
+O M-Ops é uma aplicação web de gestão de projetos e DevOps, no estilo Azure DevOps ou Jira, para um único desenvolvedor. Ela cobre projetos, backlog, sprints, quadro Kanban, bugs e commits de repositórios Git locais vinculados aos work items. Também inclui um servidor MCP para que assistentes de código com IA consultem e alterem o backlog.
+
+## Stack e hospedagem (definidos pela especificação)
+
+- **Backend:** .NET 9, ASP.NET Core Web API, EF Core com Npgsql. Hospedado no **Render**, com deploy a partir do GitHub.
+- **Banco de dados:** Postgres serverless no **Neon**, com SSL e connection pooling. A string de conexão vem de `ConnectionStrings__DefaultConnection`.
+- **MCP:** SDK oficial em C# (ModelContextProtocol). Oferece dois transportes: `stdio` como CLI local e `SSE` como endpoint HTTP na API do Render.
+- **Frontend:** React, Vite, TypeScript, Tailwind, ícones Lucide e `@dnd-kit`. Tema escuro por padrão. Hospedado no **Netlify**, com a URL base da API em `VITE_API_URL`.
+- **Sem Docker local.** Não adicione docker-compose nem containers para desenvolvimento. O banco é sempre o Neon (use um branch do Neon para desenvolvimento ou testes).
+
+## Estrutura planejada da solution
+
+```
+src/MOps.Core            entidades de domínio, enums, interfaces de repositório (sem dependências de infra)
+src/MOps.Infrastructure  DbContext, migrations do EF, configuração Npgsql/Neon
+src/MOps.Api             controllers REST + webhook de commits do Git
+src/MOps.Mcp             servidor MCP que expõe as tools para agentes de IA
+src/MOps.Web             SPA em React
+hooks/post-commit        Git hook reutilizável que envia commits para a API
+```
+
+As dependências seguem `Api`/`Mcp` → `Infrastructure` → `Core`. As tools do MCP e os endpoints REST devem compartilhar a mesma lógica de domínio e de repositório, sem duplicá-la.
+
+## Comportamentos transversais
+
+- **Modelo de dados:** `Project`, `Sprint` (`IsActive`), `WorkItem` e `CommitRecord`.
+  - `WorkItem.Type` é `UserStory`, `Task` ou `Bug`.
+  - `WorkItem.Status` é `ToDo`, `InProgress`, `InReview` ou `Done`.
+  - `WorkItem.Priority` é `Low`, `Medium`, `High` ou `Urgent`.
+  - `WorkItem.SprintId` aceita nulo; nulo significa que o item está no backlog.
+  - `WorkItem.Description` guarda Markdown.
+- **Migrations** são aplicadas na inicialização da API com `Database.MigrateAsync()` no `Program.cs`.
+- **Vínculo de commits:**
+  - `hooks/post-commit` faz um `POST` para `/api/commits/hook` com mensagem, hash, autor e data.
+  - A API extrai o ID do work item de uma referência `#<id>` na mensagem, por exemplo `feat: ajusta layout do menu (#42)`, e grava um `CommitRecord`.
+  - O hook precisa funcionar tanto em Bash quanto em PowerShell.
+- **Tools do MCP:** `list_projects`, `get_project_context` (projeto e sua sprint ativa), `create_task`, `update_task_status`, `close_task_with_commit` e `search_backlog`.
+- **Roteamento SPA no Netlify:** `MOps.Web/public/_redirects` deve conter `/* /index.html 200`.
+
+## Ordem de construção (da especificação)
+
+1. Backend core e banco Neon: solution, EF Core e migrations
+2. CRUD REST de projetos, sprints e work items, mais o webhook de commits
+3. Servidor MCP e suas tools
+4. Frontend Kanban em React
+5. Script do Git hook e configuração de ambiente no Render e no Netlify
