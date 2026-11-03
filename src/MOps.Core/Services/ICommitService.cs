@@ -10,4 +10,7 @@ public interface ICommitService
     /// </summary>
     /// <exception cref="ValidationFailedException">Entrada inválida.</exception>
     Task<CommitHookResult> RegisterAsync(CommitHookInput input, CancellationToken cancellationToken = default);
+
+    /// <summary>Commits do work item, mais recentes primeiro; <c>null</c> se o work item não existir.</summary>
+    Task<IReadOnlyList<CommitRecordDto>?> ListByWorkItemAsync(int workItemId, CancellationToken cancellationToken = default);
 }

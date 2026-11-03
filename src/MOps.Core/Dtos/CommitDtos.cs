@@ -23,3 +23,11 @@ public sealed record CommitHookResult(
     /// <summary>O commit está vinculado a pelo menos um work item (novo ou já existente).</summary>
     public bool HasAnyLink => Linked.Count > 0 || AlreadyLinked.Count > 0;
 }
+
+/// <summary>Commit vinculado a um work item.</summary>
+public sealed record CommitRecordDto(
+    int Id,
+    string CommitHash,
+    string Message,
+    string Author,
+    DateTimeOffset CommittedAt);

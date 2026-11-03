@@ -29,8 +29,8 @@ Status: a fazer
 | T-012 | CRUD de WorkItems com filtros por projeto, sprint, status, tipo e palavra-chave | backend-dotnet | T-010 | feito |
 | T-013 | Endpoint para alterar só o status de um WorkItem (uso do Kanban e do MCP) | backend-dotnet | T-012 | feito |
 | T-014 | `POST /api/commits/hook`: recebe hash, mensagem, autor e data; extrai `#<id>` e grava CommitRecord; ignora/retorna 4xx sem ID válido; tratar `DbUpdateException` do índice único (WorkItemId, CommitHash) como duplicata | backend-dotnet | T-012 | feito |
-| T-015 | `GET` de commits de um WorkItem | backend-dotnet | T-014 | a fazer |
-| T-016 | Proteção do hook e da API por chave/token simples via variável de ambiente | backend-dotnet | T-014 | a fazer |
+| T-015 | `GET` de commits de um WorkItem | backend-dotnet | T-014 | feito |
+| T-016 | Proteção do hook e da API por chave/token simples via variável de ambiente | backend-dotnet | T-014 | feito |
 | T-017 | CORS configurável por variável de ambiente (origem do front local e do Netlify) | backend-dotnet | T-010 | feito |
 | T-018 | Teste manual dos endpoints (arquivo `.http` ou curl) contra o branch Neon | gerente | T-011, T-013, T-015, T-016 | a fazer |
 

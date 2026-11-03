@@ -54,6 +54,15 @@ public sealed partial class CommitService(
         return new CommitHookResult(hash, linked, alreadyLinked, notFound);
     }
 
+    public async Task<IReadOnlyList<CommitRecordDto>?> ListByWorkItemAsync(int workItemId, CancellationToken cancellationToken = default)
+    {
+        if (!await workItems.ExistsAsync(workItemId, cancellationToken)) return null;
+        var list = await commits.ListByWorkItemAsync(workItemId, cancellationToken);
+        return list
+            .Select(c => new CommitRecordDto(c.Id, c.CommitHash, c.Message, c.Author, c.CommittedAt))
+            .ToList();
+    }
+
     /// <summary>IDs distintos referenciados como <c>#id</c>, na ordem em que aparecem.</summary>
     public static IReadOnlyList<int> ExtractWorkItemIds(string message)
         => WorkItemReference().Matches(message)

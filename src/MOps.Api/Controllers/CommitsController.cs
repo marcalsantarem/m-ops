@@ -23,4 +23,9 @@ public sealed class CommitsController(ICommitService commits) : ControllerBase
             : "Nenhum work item existente para: " + string.Join(", ", result.NotFound.Select(id => "#" + id)) + ".";
         return Problem(detail: detail, statusCode: StatusCodes.Status422UnprocessableEntity, title: "Commit não vinculado.");
     }
+
+    /// <summary>Commits vinculados ao work item, mais recentes primeiro. 404 se o work item não existir.</summary>
+    [HttpGet("api/work-items/{id:int}/commits")]
+    public async Task<ActionResult<IReadOnlyList<CommitRecordDto>>> ListByWorkItem(int id, CancellationToken ct)
+        => await commits.ListByWorkItemAsync(id, ct) is { } list ? Ok(list) : NotFound();
 }

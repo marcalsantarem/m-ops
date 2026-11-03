@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
+using MOps.Api.Auth;
 using MOps.Api.Filters;
 using MOps.Infrastructure;
 using MOps.Infrastructure.Persistence;
@@ -25,7 +26,13 @@ builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
         policy.WithOrigins(allowedOrigins).AllowAnyHeader().AllowAnyMethod();
 }));
 
+// Token único (D-03): Auth:ApiToken (env Auth__ApiToken). Tudo exige token, exceto /health e o OpenAPI em Development.
+builder.Services.AddApiTokenAuthentication(builder.Configuration);
+
 var app = builder.Build();
+
+if (string.IsNullOrWhiteSpace(app.Configuration[ApiTokenAuthenticationHandler.ConfigKey]))
+    app.Logger.LogWarning("Auth:ApiToken não configurado: todos os endpoints protegidos responderão 401.");
 
 // Aplica as migrations pendentes na inicialização (inclusive no deploy do Render).
 using (var scope = app.Services.CreateScope())
@@ -36,16 +43,18 @@ using (var scope = app.Services.CreateScope())
 
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.MapOpenApi().AllowAnonymous();
 }
 
 app.UseHttpsRedirection();
 
+// CORS antes da autenticação: o preflight (OPTIONS) é respondido pelo middleware de CORS sem exigir token.
 app.UseCors();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapGet("/health", () => Results.Ok(new { status = "ok" }));
+app.MapGet("/health", () => Results.Ok(new { status = "ok" })).AllowAnonymous();
 
 app.MapControllers();
 
