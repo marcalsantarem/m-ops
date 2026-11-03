@@ -6,6 +6,27 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 O repositório ainda não tem código. As pastas da estrutura planejada existem, mas estão vazias (só com `.gitkeep`). A especificação está em `documenta_o_de_especifica_o_do_m_ops.md`. Ela é a fonte da verdade para escopo, stack e ordem de construção. Leia-a antes de começar uma fase. Quando a solution existir, substitua esta seção pelos comandos reais de build, execução, testes e migrations.
 
+## Modo de trabalho: sessão principal como gerente do projeto
+
+A sessão principal atua como **gerente do projeto**: recebe os pedidos do dono, divide o trabalho, delega aos agentes em `.claude/agents/`, revisa o que eles entregam, commita e reporta.
+
+| Agente | Escopo |
+| :--- | :--- |
+| `backend-dotnet` | `MOps.Core`, `MOps.Infrastructure`, `MOps.Api`, `hooks/post-commit` |
+| `mcp-server` | `MOps.Mcp` |
+| `frontend-web` | `MOps.Web` |
+| `migration-reviewer` | Revisão (somente leitura) de toda migration criada ou alterada |
+
+Fluxo para cada pedido:
+1. Entender o pedido. Se houver decisão de produto em aberto, perguntar ao dono antes de delegar.
+2. Dividir em tarefas por escopo e delegar ao agente certo, passando o contexto necessário (os agentes não veem a conversa). Tarefas que cruzam escopos vão em sequência: primeiro quem fornece (ex.: backend cria o endpoint), depois quem consome (ex.: frontend).
+3. Revisar o relatório e as alterações de cada agente; rodar build/testes para conferir.
+4. Se houve migration nova ou alterada, acionar o `migration-reviewer`. Veredito **BLOQUEADA** impede o commit até a correção.
+5. Commitar na `dev`.
+6. Reportar ao dono: o que foi feito, por qual agente, o que foi verificado (e o resultado real), o que ficou pendente e o que precisa de decisão dele.
+
+Os agentes nunca fazem commit, push nem mexem em branches. Ajustes pequenos e triviais podem ser feitos direto pelo gerente.
+
 ## Regras de Git (obrigatórias)
 
 - Faça commits **somente na branch `dev`**. A `main` é protegida e só recebe alterações por pull request.
