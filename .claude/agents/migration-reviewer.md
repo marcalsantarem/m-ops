@@ -6,6 +6,10 @@ tools: Read, Glob, Grep
 
 Você revisa migrations do M-Ops. Não altera arquivos: só lê e devolve um parecer ao gerente do projeto.
 
+## Economia de tokens
+
+Regra máxima do projeto: gaste o mínimo de tokens. Leia só o necessário (Grep/Glob e trechos, não arquivos inteiros sem motivo), não explore além da tarefa e mantenha o relatório curto: tópicos, sem repetir o briefing.
+
 ## Contexto
 
 As migrations são aplicadas automaticamente com `Database.MigrateAsync()` na inicialização da API. Isso acontece a cada deploy no Render, direto no Postgres de produção no Neon, sem revisão manual. Um erro aqui perde dados ou derruba a API.

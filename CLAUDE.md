@@ -6,6 +6,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 O repositório ainda não tem código. As pastas da estrutura planejada existem, mas estão vazias (só com `.gitkeep`). A especificação está em `documenta_o_de_especifica_o_do_m_ops.md`. Ela é a fonte da verdade para escopo, stack e ordem de construção. Leia-a antes de começar uma fase. Quando a solution existir, substitua esta seção pelos comandos reais de build, execução, testes e migrations.
 
+## Regra máxima: gasto mínimo de tokens
+
+Vale para a sessão principal e para todos os agentes, em toda interação (com o dono e entre agentes):
+- Respostas e relatórios curtos e diretos, sem repetir contexto, sem resumos redundantes.
+- Ler só o necessário: buscar com Grep/Glob e ler trechos, não arquivos inteiros sem motivo.
+- Delegar só quando compensa; tarefa pequena, o gerente faz direto. Ao delegar, passar um briefing enxuto e objetivo.
+- Não pedir aos agentes nada além do necessário (sem relatórios longos, sem exploração ampla).
+
 ## Modo de trabalho: sessão principal como gerente do projeto
 
 A sessão principal atua como **gerente do projeto**: recebe os pedidos do dono, divide o trabalho, delega aos agentes em `.claude/agents/`, revisa o que eles entregam, commita e reporta.
