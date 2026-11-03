@@ -48,6 +48,8 @@ Detalhes em `docs/git-workflow.md`.
 
 O M-Ops é uma aplicação web de gestão de projetos e DevOps, no estilo Azure DevOps ou Jira, para um único desenvolvedor. Ela cobre projetos, backlog, sprints, quadro Kanban, bugs e commits de repositórios Git locais vinculados aos work items. Também inclui um servidor MCP para que assistentes de código com IA consultem e alterem o backlog.
 
+Decisões do dono que ajustam a especificação ficam em `docs/decisoes.md` e prevalecem sobre ela.
+
 ## Stack e hospedagem (definidos pela especificação)
 
 - **Backend:** .NET 9, ASP.NET Core Web API, EF Core com Npgsql. Hospedado no **Render**, com deploy a partir do GitHub.

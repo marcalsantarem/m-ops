@@ -8,7 +8,7 @@ Status: em andamento
 
 | ID | Task | Agente | Depende de | Status |
 | :--- | :--- | :--- | :--- | :--- |
-| T-001 | Criar solution .NET 9 `MOps.sln` com projetos `MOps.Core` (classlib), `MOps.Infrastructure` (classlib), `MOps.Api` (webapi) e referências entre eles; `dotnet build` passa | backend-dotnet | — | a fazer |
+| T-001 | Criar solution .NET 9 `MOps.sln` com projetos `MOps.Core` (classlib), `MOps.Infrastructure` (classlib), `MOps.Api` (webapi) e referências entre eles; `dotnet build` passa | backend-dotnet | — | feito |
 | T-002 | Criar projeto Neon e um branch de desenvolvimento; guardar a connection string (SSL + pooling) como `ConnectionStrings__DefaultConnection` em user-secrets da `MOps.Api`, fora do Git | gerente | — | a fazer |
 | T-003 | Entidades de domínio e enums em `MOps.Core` (Project, Sprint, WorkItem, CommitRecord; WorkItemType, WorkItemStatus, Priority); build passa | backend-dotnet | T-001 | a fazer |
 | T-004 | Interfaces de repositório em `MOps.Core` para as 4 entidades; build passa | backend-dotnet | T-003 | a fazer |
@@ -40,7 +40,7 @@ Status: a fazer
 
 | ID | Task | Agente | Depende de | Status |
 | :--- | :--- | :--- | :--- | :--- |
-| T-019 | Criar projeto `MOps.Mcp` (console) com SDK ModelContextProtocol, transporte `stdio` e acesso à Infrastructure; build passa e servidor inicia | mcp-server | T-009 | a fazer |
+| T-019 | Criar projeto `MOps.Mcp` (console) com SDK ModelContextProtocol, transporte `stdio` e cliente HTTP para a API (URL e token por config, D-02); build passa e servidor inicia | mcp-server | T-018 | a fazer |
 | T-020 | Tools `list_projects` e `get_project_context` (projeto + sprint ativa + itens da sprint) | mcp-server | T-019 | a fazer |
 | T-021 | Tool `create_task` (Task/Bug/UserStory, prioridade, sprint opcional) | mcp-server | T-019 | a fazer |
 | T-022 | Tool `update_task_status` | mcp-server | T-019 | a fazer |
@@ -55,7 +55,7 @@ Status: a fazer
 
 | ID | Task | Agente | Depende de | Status |
 | :--- | :--- | :--- | :--- | :--- |
-| T-027 | Scaffold `MOps.Web` com Vite + React + TypeScript + Tailwind (dark padrão) + Lucide + React Router; `public/_redirects` com `/* /index.html 200`; build passa | frontend-web | — | a fazer |
+| T-027 | Scaffold `MOps.Web` com Vite + React + TypeScript + Tailwind (dark padrão) + Lucide + React Router; `public/_redirects` com `/* /index.html 200`; build passa | frontend-web | — | feito |
 | T-028 | Cliente HTTP usando `VITE_API_URL` e tipos dos DTOs da API | frontend-web | T-027, T-018 | a fazer |
 | T-029 | Layout base (navegação, seletor de projeto) e tela de projetos (listar/criar/editar) | frontend-web | T-028 | a fazer |
 | T-030 | Tela de sprints do projeto (listar/criar/ativar) | frontend-web | T-029 | a fazer |

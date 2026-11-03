@@ -24,7 +24,7 @@ Leia `CLAUDE.md` e a seção sobre MCP de `documenta_o_de_especifica_o_do_m_ops.
 - Use o SDK oficial ModelContextProtocol para C#.
 - Dois transportes: `stdio` (executável CLI local) e `SSE` (endpoint HTTP hospedado junto à API no Render).
 - Tools previstas: `list_projects`, `get_project_context` (projeto e sprint ativa), `create_task`, `update_task_status`, `close_task_with_commit`, `search_backlog`.
-- As tools chamam a mesma lógica de domínio e repositório usada pela API. Não duplique regra de negócio nem acesse o `DbContext` com lógica própria.
+- Decisão D-02 (`docs/decisoes.md`): no `stdio`, as tools chamam a API REST com token, sem acesso ao banco nem connection string local. No `SSE` (dentro da `MOps.Api`), usam os mesmos serviços de domínio da API. Em nenhum caso duplique regra de negócio.
 - Descrições e parâmetros das tools devem ser claros para um agente de IA: diga o que a tool faz, os valores aceitos (status `ToDo`/`InProgress`/`InReview`/`Done`, tipos `UserStory`/`Task`/`Bug`, prioridades `Low`/`Medium`/`High`/`Urgent`) e o que ela retorna.
 - O endpoint SSE é público na internet: considere autenticação e informe no relatório como ficou.
 
