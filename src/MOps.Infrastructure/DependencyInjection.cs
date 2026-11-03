@@ -33,6 +33,7 @@ public static class DependencyInjection
     {
         services.AddScoped<IProjectService, ProjectService>();
         services.AddScoped<ISprintService, SprintService>();
+        services.AddScoped<IWorkItemService, WorkItemService>();
 
         return services;
     }

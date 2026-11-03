@@ -26,7 +26,7 @@ Status: a fazer
 | :--- | :--- | :--- | :--- | :--- |
 | T-010 | CRUD de Projects (`/api/projects`) com DTOs e validação básica | backend-dotnet | T-009 | feito |
 | T-011 | CRUD de Sprints aninhado ao projeto, incluindo marcar sprint ativa (uma por projeto) | backend-dotnet | T-010 | feito |
-| T-012 | CRUD de WorkItems com filtros por projeto, sprint, status, tipo e palavra-chave | backend-dotnet | T-010 | a fazer |
+| T-012 | CRUD de WorkItems com filtros por projeto, sprint, status, tipo e palavra-chave | backend-dotnet | T-010 | feito |
 | T-013 | Endpoint para alterar só o status de um WorkItem (uso do Kanban e do MCP) | backend-dotnet | T-012 | a fazer |
 | T-014 | `POST /api/commits/hook`: recebe hash, mensagem, autor e data; extrai `#<id>` e grava CommitRecord; ignora/retorna 4xx sem ID válido; tratar `DbUpdateException` do índice único (WorkItemId, CommitHash) como duplicata | backend-dotnet | T-012 | a fazer |
 | T-015 | `GET` de commits de um WorkItem | backend-dotnet | T-014 | a fazer |
