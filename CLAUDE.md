@@ -4,7 +4,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Estado atual
 
-O repositório ainda não tem código. O único arquivo é a especificação, `documenta_o_de_especifica_o_do_m_ops.md`. Ela é a fonte da verdade para escopo, stack e ordem de construção. Leia-a antes de começar uma fase. Quando a solution existir, substitua esta seção pelos comandos reais de build, execução, testes e migrations.
+O repositório ainda não tem código. As pastas da estrutura planejada existem, mas estão vazias (só com `.gitkeep`). A especificação está em `documenta_o_de_especifica_o_do_m_ops.md`. Ela é a fonte da verdade para escopo, stack e ordem de construção. Leia-a antes de começar uma fase. Quando a solution existir, substitua esta seção pelos comandos reais de build, execução, testes e migrations.
+
+## Regras de Git (obrigatórias)
+
+- Faça commits **somente na branch `dev`**. A `main` é protegida e só recebe alterações por pull request.
+- **Não crie branches** sem pedido explícito.
+- **Só abra o PR `dev` → `main` quando for pedido**, ao atingir um marco.
+
+Detalhes em `docs/git-workflow.md`.
 
 ## O que é o M-Ops
 
