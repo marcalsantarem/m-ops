@@ -1,11 +1,13 @@
 using Microsoft.EntityFrameworkCore;
+using MOps.Api.Filters;
 using MOps.Infrastructure;
 using MOps.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddInfrastructure(builder.Configuration);
-builder.Services.AddControllers();
+builder.Services.AddApplicationServices();
+builder.Services.AddControllers(options => options.Filters.Add<ValidationFailedExceptionFilter>());
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
