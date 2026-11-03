@@ -25,6 +25,10 @@ public sealed class WorkItemsController(IWorkItemService workItems) : Controller
     public async Task<ActionResult<WorkItemDto>> Update(int id, WorkItemInput input, CancellationToken ct)
         => await workItems.UpdateAsync(id, input, ct) is { } item ? Ok(item) : NotFound();
 
+    [HttpPatch("api/work-items/{id:int}/status")]
+    public async Task<ActionResult<WorkItemDto>> UpdateStatus(int id, WorkItemStatusInput input, CancellationToken ct)
+        => await workItems.UpdateStatusAsync(id, input, ct) is { } item ? Ok(item) : NotFound();
+
     [HttpDelete("api/work-items/{id:int}")]
     public async Task<IActionResult> Delete(int id, CancellationToken ct)
         => await workItems.DeleteAsync(id, ct) ? NoContent() : NotFound();

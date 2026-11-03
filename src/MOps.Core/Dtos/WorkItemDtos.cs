@@ -34,3 +34,6 @@ public sealed record WorkItemQuery(
     WorkItemStatus? Status = null,
     WorkItemType? Type = null,
     string? Keyword = null);
+
+/// <summary>Entrada da mudança rápida de status (PATCH /api/work-items/{id}/status e MCP).</summary>
+public sealed record WorkItemStatusInput(WorkItemStatus? Status);

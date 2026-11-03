@@ -70,6 +70,23 @@ public sealed class WorkItemService(
         return ToDto(item);
     }
 
+    public async Task<WorkItemDto?> UpdateStatusAsync(int id, WorkItemStatusInput input, CancellationToken cancellationToken = default)
+    {
+        if (input?.Status is not { } status || !Enum.IsDefined(status))
+            throw new ValidationFailedException(new Dictionary<string, string[]>
+            {
+                [nameof(WorkItemStatusInput.Status)] = [input?.Status is null ? "Status é obrigatório." : "Status inválido."]
+            });
+
+        var item = await workItems.GetByIdAsync(id, cancellationToken);
+        if (item is null) return null;
+
+        item.Status = status;
+        item.UpdatedAt = DateTimeOffset.UtcNow;
+        await unitOfWork.SaveChangesAsync(cancellationToken);
+        return ToDto(item);
+    }
+
     public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
         var item = await workItems.GetByIdAsync(id, cancellationToken);
