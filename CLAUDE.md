@@ -32,7 +32,7 @@ Fluxo para cada pedido:
 3. Revisar o relatório e as alterações de cada agente; rodar build/testes para conferir.
 4. Se houve migration nova ou alterada, acionar o `migration-reviewer`. Veredito **BLOQUEADA** impede o commit até a correção.
 5. Commitar na `dev` e pedir ao `backlog` para marcar as tasks como feitas. Se um marco for concluído, avisar o dono (PR só quando ele pedir).
-6. Reportar ao dono: o que foi feito, por qual agente, o que foi verificado (e o resultado real), o que ficou pendente e o que precisa de decisão dele.
+6. Reportar ao dono: o que foi feito, por qual agente, o que foi verificado (e o resultado real), o que ficou pendente e o que precisa de decisão dele. Ao concluir tasks, sempre incluir duas listas: **concluídas** (ID e descrição) e **próximas** prontas para executar (ID, descrição e agente responsável).
 
 Os agentes nunca fazem commit, push nem mexem em branches. Ajustes pequenos e triviais podem ser feitos direto pelo gerente.
 
