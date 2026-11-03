@@ -19,6 +19,6 @@ public class SprintConfiguration : IEntityTypeConfiguration<Sprint>
             .HasForeignKey(x => x.ProjectId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        b.HasIndex(x => new { x.ProjectId, x.IsActive });
+        b.HasIndex(x => x.ProjectId).IsUnique().HasFilter("\"IsActive\"");
     }
 }

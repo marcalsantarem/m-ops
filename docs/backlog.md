@@ -14,7 +14,7 @@ Status: em andamento
 | T-004 | Interfaces de repositório em `MOps.Core` para as 4 entidades; build passa | backend-dotnet | T-003 | feito |
 | T-005 | `MOpsDbContext` em `MOps.Infrastructure` com Npgsql, mapeamentos (chaves, FKs, índices, enums) e extensão de DI que lê `DefaultConnection`; build passa | backend-dotnet | T-003 | feito |
 | T-006 | Implementações dos repositórios em `MOps.Infrastructure` e registro na DI; build passa | backend-dotnet | T-004, T-005 | feito |
-| T-007 | Migration inicial `InitialCreate` com as 4 tabelas + migration-reviewer | backend-dotnet | T-005 | a fazer |
+| T-007 | Migration inicial `InitialCreate` com as 4 tabelas + migration-reviewer | backend-dotnet | T-005 | feito |
 | T-008 | `Program.cs` da API registra a Infrastructure e roda `Database.MigrateAsync()` no startup; endpoint `/health` responde 200 | backend-dotnet | T-006, T-007 | a fazer |
 | T-009 | Subir a API local contra o branch Neon e conferir que as tabelas foram criadas | gerente | T-002, T-008 | a fazer |
 

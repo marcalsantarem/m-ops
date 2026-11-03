@@ -20,7 +20,6 @@ public class CommitRecordConfiguration : IEntityTypeConfiguration<CommitRecord>
             .HasForeignKey(x => x.WorkItemId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        b.HasIndex(x => x.WorkItemId);
         b.HasIndex(x => x.CommitHash);
         // Evita duplicar o mesmo commit no mesmo work item (hook reenviado).
         b.HasIndex(x => new { x.WorkItemId, x.CommitHash }).IsUnique();
