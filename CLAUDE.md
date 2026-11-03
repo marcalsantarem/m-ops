@@ -20,6 +20,7 @@ A sessão principal atua como **gerente do projeto**: recebe os pedidos do dono,
 
 | Agente | Escopo |
 | :--- | :--- |
+| `backlog` | Planejamento: quebra em tasks, atribui agentes, controla marcos em `docs/backlog.md` |
 | `backend-dotnet` | `MOps.Core`, `MOps.Infrastructure`, `MOps.Api`, `hooks/post-commit` |
 | `mcp-server` | `MOps.Mcp` |
 | `frontend-web` | `MOps.Web` |
@@ -27,10 +28,10 @@ A sessão principal atua como **gerente do projeto**: recebe os pedidos do dono,
 
 Fluxo para cada pedido:
 1. Entender o pedido. Se houver decisão de produto em aberto, perguntar ao dono antes de delegar.
-2. Dividir em tarefas por escopo e delegar ao agente certo, passando o contexto necessário (os agentes não veem a conversa). Tarefas que cruzam escopos vão em sequência: primeiro quem fornece (ex.: backend cria o endpoint), depois quem consome (ex.: frontend).
+2. Trabalho novo ou maior que uma task: pedir ao `backlog` para quebrar em tasks. Executar as tasks prontas delegando ao agente indicado, passando o contexto necessário (os agentes não veem a conversa). Tarefas que cruzam escopos vão em sequência: primeiro quem fornece (ex.: backend cria o endpoint), depois quem consome (ex.: frontend).
 3. Revisar o relatório e as alterações de cada agente; rodar build/testes para conferir.
 4. Se houve migration nova ou alterada, acionar o `migration-reviewer`. Veredito **BLOQUEADA** impede o commit até a correção.
-5. Commitar na `dev`.
+5. Commitar na `dev` e pedir ao `backlog` para marcar as tasks como feitas. Se um marco for concluído, avisar o dono (PR só quando ele pedir).
 6. Reportar ao dono: o que foi feito, por qual agente, o que foi verificado (e o resultado real), o que ficou pendente e o que precisa de decisão dele.
 
 Os agentes nunca fazem commit, push nem mexem em branches. Ajustes pequenos e triviais podem ser feitos direto pelo gerente.
