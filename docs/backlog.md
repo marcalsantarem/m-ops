@@ -13,7 +13,7 @@ Status: em andamento
 | T-003 | Entidades de domínio e enums em `MOps.Core` (Project, Sprint, WorkItem, CommitRecord; WorkItemType, WorkItemStatus, Priority); build passa | backend-dotnet | T-001 | feito |
 | T-004 | Interfaces de repositório em `MOps.Core` para as 4 entidades; build passa | backend-dotnet | T-003 | feito |
 | T-005 | `MOpsDbContext` em `MOps.Infrastructure` com Npgsql, mapeamentos (chaves, FKs, índices, enums) e extensão de DI que lê `DefaultConnection`; build passa | backend-dotnet | T-003 | feito |
-| T-006 | Implementações dos repositórios em `MOps.Infrastructure` e registro na DI; build passa | backend-dotnet | T-004, T-005 | a fazer |
+| T-006 | Implementações dos repositórios em `MOps.Infrastructure` e registro na DI; build passa | backend-dotnet | T-004, T-005 | feito |
 | T-007 | Migration inicial `InitialCreate` com as 4 tabelas + migration-reviewer | backend-dotnet | T-005 | a fazer |
 | T-008 | `Program.cs` da API registra a Infrastructure e roda `Database.MigrateAsync()` no startup; endpoint `/health` responde 200 | backend-dotnet | T-006, T-007 | a fazer |
 | T-009 | Subir a API local contra o branch Neon e conferir que as tabelas foram criadas | gerente | T-002, T-008 | a fazer |
@@ -28,7 +28,7 @@ Status: a fazer
 | T-011 | CRUD de Sprints aninhado ao projeto, incluindo marcar sprint ativa (uma por projeto) | backend-dotnet | T-010 | a fazer |
 | T-012 | CRUD de WorkItems com filtros por projeto, sprint, status, tipo e palavra-chave | backend-dotnet | T-010 | a fazer |
 | T-013 | Endpoint para alterar só o status de um WorkItem (uso do Kanban e do MCP) | backend-dotnet | T-012 | a fazer |
-| T-014 | `POST /api/commits/hook`: recebe hash, mensagem, autor e data; extrai `#<id>` e grava CommitRecord; ignora/retorna 4xx sem ID válido | backend-dotnet | T-012 | a fazer |
+| T-014 | `POST /api/commits/hook`: recebe hash, mensagem, autor e data; extrai `#<id>` e grava CommitRecord; ignora/retorna 4xx sem ID válido; tratar `DbUpdateException` do índice único (WorkItemId, CommitHash) como duplicata | backend-dotnet | T-012 | a fazer |
 | T-015 | `GET` de commits de um WorkItem | backend-dotnet | T-014 | a fazer |
 | T-016 | Proteção do hook e da API por chave/token simples via variável de ambiente | backend-dotnet | T-014 | a fazer |
 | T-017 | CORS configurável por variável de ambiente (origem do front local e do Netlify) | backend-dotnet | T-010 | a fazer |
