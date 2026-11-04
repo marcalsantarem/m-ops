@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+# M-Ops post-commit hook: envia o ultimo commit para POST /api/commits/hook.
+# Config: MOPS_API_URL / MOPS_API_TOKEN (env) ou git config mops.apiUrl / mops.apiToken.
+# Nunca falha o commit: qualquer problema vira aviso em stderr e exit 0.
+
+warn() { printf 'm-ops hook: %s\n' "$*" >&2; }
+
+main() {
+    local msg hash author date url token body tmp code
+    msg=$(git log -1 --format=%B 2>/dev/null) || { warn "nao foi possivel ler o ultimo commit"; return 0; }
+
+    # Sem referencia #<id>: nada a enviar.
+    printf '%s' "$msg" | grep -Eq '#[0-9]+' || return 0
+
+    hash=$(git log -1 --format=%H)
+    author=$(git log -1 --format='%an <%ae>')
+    date=$(git log -1 --format=%cI)
+
+    url=${MOPS_API_URL:-$(git config --get mops.apiUrl 2>/dev/null)}
+    token=${MOPS_API_TOKEN:-$(git config --get mops.apiToken 2>/dev/null)}
+    if [ -z "$url" ] || [ -z "$token" ]; then
+        warn "MOPS_API_URL/MOPS_API_TOKEN (ou git config mops.apiUrl/mops.apiToken) nao definidos; commit nao enviado"
+        return 0
+    fi
+    command -v curl >/dev/null 2>&1 || { warn "curl nao encontrado; commit nao enviado"; return 0; }
+
+    if command -v jq >/dev/null 2>&1; then
+        body=$(jq -cn --arg h "$hash" --arg m "$msg" --arg a "$author" --arg d "$date" \
+            '{commitHash:$h, message:$m, author:$a, committedAt:$d}')
+    else
+        body=$(printf '{"commitHash":"%s","message":"%s","author":"%s","committedAt":"%s"}' \
+            "$(json_escape "$hash")" "$(json_escape "$msg")" "$(json_escape "$author")" "$(json_escape "$date")")
+    fi
+
+    tmp=$(mktemp 2>/dev/null || echo "${TMPDIR:-/tmp}/mops-hook-$$.json")
+    printf '%s' "$body" > "$tmp" || { warn "falha ao gravar arquivo temporario"; return 0; }
+
+    # Token vai por config no stdin (-K -) para nao aparecer na linha de comando.
+    code=$(printf 'header = "Authorization: Bearer %s"\n' "$(curl_cfg_escape "$token")" |
+        curl -sS -K - -o /dev/null -w '%{http_code}' --max-time 5 \
+            -X POST -H 'Content-Type: application/json; charset=utf-8' \
+            --data-binary "@$tmp" "${url%/}/api/commits/hook" 2>/dev/null)
+    rm -f "$tmp"
+
+    case "$code" in
+        200|201) ;;
+        000|"") warn "API inacessivel em ${url%/} (commit ${hash:0:7} nao enviado)" ;;
+        *) warn "API respondeu HTTP $code para o commit ${hash:0:7}" ;;
+    esac
+    return 0
+}
+
+# Escapa string para JSON: \ " e caracteres de controle; quebras de linha viram \n.
+json_escape() {
+    printf '%s' "$1" | LC_ALL=C awk '
+        BEGIN { ORS = "" }
+        {
+            gsub(/\\/, "\\\\"); gsub(/"/, "\\\""); gsub(/\t/, "\\t"); gsub(/\r/, "\\r");
+            gsub(/\f/, "\\f"); gsub(/\010/, "\\b");
+            if (NR > 1) print "\\n";
+            print
+        }'
+}
+
+# Escapa \ e " para valor entre aspas no arquivo de config do curl.
+curl_cfg_escape() { printf '%s' "$1" | sed -e 's/\\/\\\\/g' -e 's/"/\\"/g'; }
+
+main "$@" || true
+exit 0

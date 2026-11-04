@@ -1,0 +1,2 @@
+hooks/post-commit text eol=lf
+*.sh text eol=lf

@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MOps.Core.Repositories;
+using MOps.Core.Services;
 using MOps.Infrastructure.Persistence;
 using MOps.Infrastructure.Persistence.Repositories;
 
@@ -23,6 +24,17 @@ public static class DependencyInjection
         services.AddScoped<ISprintRepository, SprintRepository>();
         services.AddScoped<IWorkItemRepository, WorkItemRepository>();
         services.AddScoped<ICommitRecordRepository, CommitRecordRepository>();
+
+        return services;
+    }
+
+    /// <summary>Serviços de aplicação do Core, compartilhados pela API REST e pelo MCP (SSE).</summary>
+    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+    {
+        services.AddScoped<IProjectService, ProjectService>();
+        services.AddScoped<ISprintService, SprintService>();
+        services.AddScoped<IWorkItemService, WorkItemService>();
+        services.AddScoped<ICommitService, CommitService>();
 
         return services;
     }

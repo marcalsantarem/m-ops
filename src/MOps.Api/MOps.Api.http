@@ -1,0 +1,76 @@
+# Testes manuais da API (T-018). Defina @token com o valor de Auth:ApiToken
+# (dotnet user-secrets list --project src/MOps.Api). Não commite o valor.
+@host = http://localhost:5011
+@token = COLE_O_TOKEN_AQUI
+
+### Health (público)
+GET {{host}}/health
+
+### Sem token (espera 401)
+GET {{host}}/api/projects
+
+### Projetos
+GET {{host}}/api/projects
+Authorization: Bearer {{token}}
+
+###
+POST {{host}}/api/projects
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "name": "Projeto teste", "description": "Criado pelo .http", "gitRepositoryUrl": null }
+
+###
+PUT {{host}}/api/projects/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "name": "Projeto teste (editado)", "description": null, "gitRepositoryUrl": null }
+
+### Sprints
+POST {{host}}/api/projects/1/sprints
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "name": "Sprint 1", "startDate": "2026-11-03T00:00:00Z", "endDate": "2026-11-17T00:00:00Z" }
+
+###
+POST {{host}}/api/projects/1/sprints/1/activate
+Authorization: Bearer {{token}}
+
+###
+GET {{host}}/api/projects/1/sprints
+Authorization: Bearer {{token}}
+
+### Work items
+POST {{host}}/api/projects/1/work-items
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "title": "Primeira task", "description": "**markdown**", "type": "Task", "status": "ToDo", "priority": "High", "sprintId": 1 }
+
+###
+GET {{host}}/api/projects/1/work-items?status=ToDo&keyword=primeira
+Authorization: Bearer {{token}}
+
+###
+PATCH {{host}}/api/work-items/1/status
+X-Api-Key: {{token}}
+Content-Type: application/json
+
+{ "status": "InProgress" }
+
+### Hook de commit (vincula ao #1)
+POST {{host}}/api/commits/hook
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "commitHash": "abc123def456", "message": "Implementa X #1", "author": "Dev <dev@example.com>", "committedAt": "2026-11-03T12:00:00Z" }
+
+###
+GET {{host}}/api/work-items/1/commits
+Authorization: Bearer {{token}}
+
+### Limpeza (cascade apaga sprints, work items e commits)
+DELETE {{host}}/api/projects/1
+Authorization: Bearer {{token}}
