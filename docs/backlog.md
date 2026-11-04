@@ -40,12 +40,12 @@ Status: a fazer
 
 | ID | Task | Agente | Depende de | Status |
 | :--- | :--- | :--- | :--- | :--- |
-| T-019 | Criar projeto `MOps.Mcp` (console) com SDK ModelContextProtocol, transporte `stdio` e cliente HTTP para a API (URL e token por config, D-02); build passa e servidor inicia | mcp-server | T-018 | a fazer |
-| T-020 | Tools `list_projects` e `get_project_context` (projeto + sprint ativa + itens da sprint) | mcp-server | T-019 | a fazer |
-| T-021 | Tool `create_task` (Task/Bug/UserStory, prioridade, sprint opcional) | mcp-server | T-019 | a fazer |
-| T-022 | Tool `update_task_status` | mcp-server | T-019 | a fazer |
-| T-023 | Tool `close_task_with_commit` (status Done + resumo + CommitRecord) | mcp-server | T-022 | a fazer |
-| T-024 | Tool `search_backlog` por palavra-chave e status | mcp-server | T-019 | a fazer |
+| T-019 | Criar projeto `MOps.Mcp` (console) com SDK ModelContextProtocol, transporte `stdio` e cliente HTTP para a API (URL e token por config, D-02); build passa e servidor inicia | mcp-server | T-018 | feito |
+| T-020 | Tools `list_projects` e `get_project_context` (projeto + sprint ativa + itens da sprint) | mcp-server | T-019 | feito |
+| T-021 | Tool `create_task` (Task/Bug/UserStory, prioridade, sprint opcional) | mcp-server | T-019 | feito |
+| T-022 | Tool `update_task_status` | mcp-server | T-019 | feito |
+| T-023 | Tool `close_task_with_commit` (status Done + resumo + CommitRecord) | mcp-server | T-022 | feito |
+| T-024 | Tool `search_backlog` por palavra-chave e status | mcp-server | T-019 | feito |
 | T-025 | Transporte SSE exposto como endpoint HTTP na API | mcp-server | T-020, T-021, T-022, T-023, T-024 | a fazer |
 | T-026 | Registrar o MCP `stdio` no Claude Code e testar cada tool | gerente | T-020, T-021, T-022, T-023, T-024 | a fazer |
 

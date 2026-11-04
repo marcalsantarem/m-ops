@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <UserSecretsId>mops-mcp-7c1d2e4a-3f5b-4a9e-9d61-2b8f0c6e5a14</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MOps.Core\MOps.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.22" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.22" />
+    <PackageReference Include="ModelContextProtocol" Version="2.3.1" />
+  </ItemGroup>
+
+</Project>
