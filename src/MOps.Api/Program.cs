@@ -7,6 +7,11 @@ using MOps.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Render (e similares) informam a porta em PORT; o TLS termina no proxy, então escuta HTTP puro.
+var port = Environment.GetEnvironmentVariable("PORT");
+if (!string.IsNullOrWhiteSpace(port))
+    builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplicationServices();
 builder.Services.AddControllers(options => options.Filters.Add<ValidationFailedExceptionFilter>())
@@ -44,9 +49,10 @@ using (var scope = app.Services.CreateScope())
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi().AllowAnonymous();
+    // Fora de Development o HTTPS é responsabilidade do proxy (Render); X-Forwarded-* é tratado
+    // pelo próprio ASP.NET Core quando ASPNETCORE_FORWARDEDHEADERS_ENABLED=true (ver render.yaml).
+    app.UseHttpsRedirection();
 }
-
-app.UseHttpsRedirection();
 
 // CORS antes da autenticação: o preflight (OPTIONS) é respondido pelo middleware de CORS sem exigir token.
 app.UseCors();

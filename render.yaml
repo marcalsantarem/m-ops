@@ -1,0 +1,19 @@
+# Blueprint do Render para a API. O Render não tem runtime .NET nativo, então usa o Dockerfile da raiz.
+services:
+  - type: web
+    name: mops-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: ConnectionStrings__DefaultConnection
+        sync: false
+      - key: Auth__ApiToken
+        sync: false
+      - key: Cors__AllowedOrigins__0
+        sync: false
+      - key: ASPNETCORE_FORWARDEDHEADERS_ENABLED
+        value: "true"

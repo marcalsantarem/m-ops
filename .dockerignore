@@ -1,0 +1,9 @@
+**/bin/
+**/obj/
+**/node_modules/
+.git/
+.claude/
+src/MOps.Web/
+src/MOps.Mcp/
+docs/
+hooks/

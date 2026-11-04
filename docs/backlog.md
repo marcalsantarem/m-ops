@@ -71,8 +71,8 @@ Status: a fazer
 | ID | Task | Agente | Depende de | Status |
 | :--- | :--- | :--- | :--- | :--- |
 | T-035 | Script `hooks/post-commit` (Bash) que envia hash, mensagem, autor e data para a API, com URL e token por variável/config | backend-dotnet | T-016 | feito |
-| T-036 | Variante PowerShell do hook e instruções de instalação em outro repositório | backend-dotnet | T-035 | a fazer |
-| T-037 | Preparar a API para o Render (porta via `PORT`, arquivo de build/start ou `render.yaml`) | backend-dotnet | T-018 | a fazer |
+| T-036 | Variante PowerShell do hook e instruções de instalação em outro repositório | backend-dotnet | T-035 | feito |
+| T-037 | Preparar a API para o Render (porta via `PORT`, arquivo de build/start ou `render.yaml`) | backend-dotnet | T-018 | feito |
 | T-038 | Criar serviço no Render ligado ao GitHub e configurar `ConnectionStrings__DefaultConnection` (branch principal do Neon), token e CORS | gerente | T-037 | a fazer |
 | T-039 | Preparar o front para o Netlify (`netlify.toml` com base `src/MOps.Web`, comando e pasta de publicação) | frontend-web | T-034 | a fazer |
 | T-040 | Criar site no Netlify ligado ao GitHub e configurar `VITE_API_URL` | gerente | T-038, T-039 | a fazer |
