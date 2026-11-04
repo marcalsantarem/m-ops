@@ -20,7 +20,7 @@ Status: concluído
 
 ## M2 — API REST e endpoint de commits
 Critério: CRUDs de Projects, Sprints e WorkItems respondem corretamente; `POST /api/commits/hook` com mensagem contendo `#<id>` grava um CommitRecord vinculado ao WorkItem.
-Status: a fazer
+Status: concluído
 
 | ID | Task | Agente | Depende de | Status |
 | :--- | :--- | :--- | :--- | :--- |
@@ -32,7 +32,7 @@ Status: a fazer
 | T-015 | `GET` de commits de um WorkItem | backend-dotnet | T-014 | feito |
 | T-016 | Proteção do hook e da API por chave/token simples via variável de ambiente | backend-dotnet | T-014 | feito |
 | T-017 | CORS configurável por variável de ambiente (origem do front local e do Netlify) | backend-dotnet | T-010 | feito |
-| T-018 | Teste manual dos endpoints (arquivo `.http` ou curl) contra o branch Neon | gerente | T-011, T-013, T-015, T-016 | a fazer |
+| T-018 | Teste manual dos endpoints (arquivo `.http` ou curl) contra o branch Neon | gerente | T-011, T-013, T-015, T-016 | feito |
 
 ## M3 — Servidor MCP
 Critério: `MOps.Mcp` roda via `stdio`, é registrado no Claude Code e as tools listam projetos, criam task, mudam status, fecham com commit e buscam no backlog com efeito real no banco.
@@ -70,7 +70,7 @@ Status: a fazer
 
 | ID | Task | Agente | Depende de | Status |
 | :--- | :--- | :--- | :--- | :--- |
-| T-035 | Script `hooks/post-commit` (Bash) que envia hash, mensagem, autor e data para a API, com URL e token por variável/config | backend-dotnet | T-016 | a fazer |
+| T-035 | Script `hooks/post-commit` (Bash) que envia hash, mensagem, autor e data para a API, com URL e token por variável/config | backend-dotnet | T-016 | feito |
 | T-036 | Variante PowerShell do hook e instruções de instalação em outro repositório | backend-dotnet | T-035 | a fazer |
 | T-037 | Preparar a API para o Render (porta via `PORT`, arquivo de build/start ou `render.yaml`) | backend-dotnet | T-018 | a fazer |
 | T-038 | Criar serviço no Render ligado ao GitHub e configurar `ConnectionStrings__DefaultConnection` (branch principal do Neon), token e CORS | gerente | T-037 | a fazer |
