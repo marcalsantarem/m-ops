@@ -56,7 +56,7 @@ Status: a fazer
 | ID | Task | Agente | Depende de | Status |
 | :--- | :--- | :--- | :--- | :--- |
 | T-027 | Scaffold `MOps.Web` com Vite + React + TypeScript + Tailwind (dark padrão) + Lucide + React Router; `public/_redirects` com `/* /index.html 200`; build passa | frontend-web | — | feito |
-| T-028 | Cliente HTTP usando `VITE_API_URL` e tipos dos DTOs da API | frontend-web | T-027, T-018 | a fazer |
+| T-028 | Cliente HTTP usando `VITE_API_URL` e tipos dos DTOs da API | frontend-web | T-027, T-018 | feito |
 | T-029 | Layout base (navegação, seletor de projeto) e tela de projetos (listar/criar/editar) | frontend-web | T-028 | a fazer |
 | T-030 | Tela de sprints do projeto (listar/criar/ativar) | frontend-web | T-029 | a fazer |
 | T-031 | Tela de backlog (lista de work items com filtros, criar/editar, mover para sprint) | frontend-web | T-029 | a fazer |
