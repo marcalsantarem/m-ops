@@ -61,7 +61,7 @@ Status: a fazer
 | T-030 | Tela de sprints do projeto (listar/criar/ativar) | frontend-web | T-029 | a fazer |
 | T-031 | Tela de backlog (lista de work items com filtros, criar/editar, mover para sprint) | frontend-web | T-029 | a fazer |
 | T-032 | Quadro Kanban com `@dnd-kit` (To Do, In Progress, In Review, Done) persistindo status | frontend-web | T-031 | a fazer |
-| T-033 | Detalhe do work item com descrição Markdown renderizada e histórico de commits | frontend-web | T-031 | a fazer |
+| T-033 | Detalhe do work item com descrição Markdown renderizada (sem HTML bruto, por segurança — D-06) e histórico de commits | frontend-web | T-031 | a fazer |
 | T-034 | Layout responsivo (uso no celular) revisado nas telas principais | frontend-web | T-032, T-033 | a fazer |
 
 ## M5 — Git hooks e publicação cloud
@@ -74,6 +74,6 @@ Status: a fazer
 | T-036 | Variante PowerShell do hook e instruções de instalação em outro repositório | backend-dotnet | T-035 | feito |
 | T-037 | Preparar a API para o Render (porta via `PORT`, arquivo de build/start ou `render.yaml`) | backend-dotnet | T-018 | feito |
 | T-038 | Criar serviço no Render ligado ao GitHub e configurar `ConnectionStrings__DefaultConnection` (branch principal do Neon), token e CORS | gerente | T-037 | a fazer |
-| T-039 | Preparar o front para o Netlify (`netlify.toml` com base `src/MOps.Web`, comando e pasta de publicação) | frontend-web | T-034 | a fazer |
+| T-039 | Preparar o front para o Netlify (`netlify.toml` com base `src/MOps.Web`, comando e pasta de publicação; cabeçalho CSP bloqueando scripts de terceiros (D-06) | frontend-web | T-034 | a fazer |
 | T-040 | Criar site no Netlify ligado ao GitHub e configurar `VITE_API_URL` | gerente | T-038, T-039 | a fazer |
 | T-041 | Teste ponta a ponta: hook instalado, commit com `#<id>`, commit visível no front publicado | gerente | T-036, T-040 | a fazer |

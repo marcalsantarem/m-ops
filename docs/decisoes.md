@@ -9,4 +9,4 @@ Decisões do dono que complementam ou ajustam a especificação.
 | D-03 | 2026-11-03 | API e endpoint do hook protegidos por token (variável de ambiente no Render; o hook e o MCP `stdio` enviam o token). |
 | D-04 | 2026-11-03 | Git hook em duas versões: Bash e PowerShell. |
 | D-05 | 2026-11-03 | Dockerfile na raiz apenas para o deploy da API no Render (que não tem runtime .NET nativo). Continua sem Docker no desenvolvimento local. Plano `free` no `render.yaml` (hiberna; a primeira requisição após inatividade é lenta). |
-| D-06 | 2026-11-04 | Login do front: o token da API é digitado uma vez numa tela de login e guardado no `localStorage` do navegador; nunca vai no bundle. |
+| D-06 | 2026-11-04 | Login do front: o token da API é digitado uma vez numa tela de login e guardado no `localStorage` do navegador; nunca vai no bundle. Precauções: Markdown sem HTML bruto e CSP no Netlify. Rever (cookie de sessão HttpOnly) se houver mais usuários ou dados sensíveis. |
