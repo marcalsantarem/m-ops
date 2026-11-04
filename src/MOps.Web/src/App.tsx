@@ -6,6 +6,8 @@ import { ProjectProvider } from './context/ProjectProvider'
 import LoginPage from './pages/LoginPage'
 import PlaceholderPage from './pages/PlaceholderPage'
 import ProjectsPage from './pages/ProjectsPage'
+import BacklogPage from './pages/BacklogPage'
+import SprintsPage from './pages/SprintsPage'
 
 export default function App() {
   return (
@@ -24,8 +26,8 @@ export default function App() {
           >
             <Route index element={<Navigate to="/projects" replace />} />
             <Route path="projects" element={<ProjectsPage />} />
-            <Route path="backlog" element={<PlaceholderPage title="Backlog" />} />
-            <Route path="sprints" element={<PlaceholderPage title="Sprints" />} />
+            <Route path="backlog" element={<BacklogPage />} />
+            <Route path="sprints" element={<SprintsPage />} />
             <Route path="kanban" element={<PlaceholderPage title="Kanban" />} />
             <Route path="*" element={<Navigate to="/projects" replace />} />
           </Route>

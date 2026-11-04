@@ -58,8 +58,8 @@ Status: a fazer
 | T-027 | Scaffold `MOps.Web` com Vite + React + TypeScript + Tailwind (dark padrão) + Lucide + React Router; `public/_redirects` com `/* /index.html 200`; build passa | frontend-web | — | feito |
 | T-028 | Cliente HTTP usando `VITE_API_URL` e tipos dos DTOs da API | frontend-web | T-027, T-018 | feito |
 | T-029 | Layout base (navegação, seletor de projeto) e tela de projetos (listar/criar/editar) | frontend-web | T-028 | feito |
-| T-030 | Tela de sprints do projeto (listar/criar/ativar) | frontend-web | T-029 | a fazer |
-| T-031 | Tela de backlog (lista de work items com filtros, criar/editar, mover para sprint) | frontend-web | T-029 | a fazer |
+| T-030 | Tela de sprints do projeto (listar/criar/ativar) | frontend-web | T-029 | feito |
+| T-031 | Tela de backlog (lista de work items com filtros, criar/editar, mover para sprint) | frontend-web | T-029 | feito |
 | T-032 | Quadro Kanban com `@dnd-kit` (To Do, In Progress, In Review, Done) persistindo status | frontend-web | T-031 | a fazer |
 | T-033 | Detalhe do work item com descrição Markdown renderizada (sem HTML bruto, por segurança — D-06) e histórico de commits | frontend-web | T-031 | a fazer |
 | T-034 | Layout responsivo (uso no celular) revisado nas telas principais | frontend-web | T-032, T-033 | a fazer |

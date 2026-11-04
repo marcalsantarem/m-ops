@@ -6,8 +6,8 @@ import { useProjects } from '../context/projectContext'
 
 const navItems = [
   { to: '/projects', label: 'Projetos', icon: FolderKanban, enabled: true },
-  { to: '/backlog', label: 'Backlog', icon: ListTodo, enabled: false },
-  { to: '/sprints', label: 'Sprints', icon: Timer, enabled: false },
+  { to: '/backlog', label: 'Backlog', icon: ListTodo, enabled: true },
+  { to: '/sprints', label: 'Sprints', icon: Timer, enabled: true },
   { to: '/kanban', label: 'Kanban', icon: KanbanSquare, enabled: false },
 ]
 

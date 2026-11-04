@@ -1,48 +1,10 @@
-import { useState, type FormEvent, type ReactNode } from 'react'
-import { AlertCircle, ExternalLink, FolderKanban, Loader2, Pencil, Plus, RefreshCw, Trash2 } from 'lucide-react'
-import { ApiError, projectsApi, type ProjectDto, type ProjectInput } from '../api'
+import { useState, type FormEvent } from 'react'
+import { ExternalLink, FolderKanban, Pencil, Plus, Trash2 } from 'lucide-react'
+import { projectsApi, type ProjectDto, type ProjectInput } from '../api'
 import Modal from '../components/Modal'
 import { useProjects } from '../context/projectContext'
-
-type FieldErrors = Record<string, string[]>
-
-/** Normaliza as chaves de ApiError.errors (ex.: "Name", "$.name") para minúsculas. */
-function normalizeErrors(errors?: Record<string, string[]>): FieldErrors {
-  const out: FieldErrors = {}
-  for (const [key, messages] of Object.entries(errors ?? {})) {
-    const k = key.replace(/^\$\./, '').toLowerCase()
-    out[k] = [...(out[k] ?? []), ...messages]
-  }
-  return out
-}
-
-const inputClass =
-  'w-full rounded-md border bg-zinc-950 px-3 py-2 text-sm focus:outline-none focus:border-sky-500'
-
-function Field({
-  label,
-  name,
-  errors,
-  children,
-}: {
-  label: string
-  name: string
-  errors: FieldErrors
-  children: ReactNode
-}) {
-  const msgs = errors[name.toLowerCase()]
-  return (
-    <label className="block">
-      <span className="mb-1 block text-sm text-zinc-300">{label}</span>
-      {children}
-      {msgs?.map((m) => (
-        <span key={m} className="mt-1 block text-xs text-red-400">
-          {m}
-        </span>
-      ))}
-    </label>
-  )
-}
+import { ConfirmDelete, EmptyState, ErrorState, Field, FormActions, LoadingState, PrimaryButton } from '../components/ui'
+import { borderFor, inputClass, splitSaveError, type FieldErrors } from '../components/formUtils'
 
 function ProjectForm({
   project,
@@ -78,23 +40,15 @@ function ProjectForm({
       const saved = project ? await projectsApi.update(project.id, input) : await projectsApi.create(input)
       onSaved(saved)
     } catch (err) {
-      if (err instanceof ApiError && err.errors) {
-        const fe = normalizeErrors(err.errors)
-        setErrors(fe)
-        const known = ['name', 'description', 'gitrepositoryurl']
-        const other = Object.entries(fe)
-          .filter(([k]) => !known.includes(k))
-          .flatMap(([, v]) => v)
-        setFormError(other.length ? other.join(' ') : null)
-      } else {
-        setFormError(err instanceof Error ? err.message : 'Erro ao salvar.')
-      }
+      const { fields, form } = splitSaveError(err, ['name', 'description', 'gitrepositoryurl'])
+      setErrors(fields)
+      setFormError(form)
     } finally {
       setSaving(false)
     }
   }
 
-  const border = (field: string) => (errors[field] ? 'border-red-500' : 'border-zinc-700')
+  const border = (field: string) => borderFor(errors, field)
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4" noValidate>
@@ -122,78 +76,8 @@ function ProjectForm({
           placeholder="https://github.com/usuario/repo"
         />
       </Field>
-      {formError && (
-        <p className="text-sm text-red-400" role="alert">
-          {formError}
-        </p>
-      )}
-      <div className="flex justify-end gap-2">
-        <button type="button" onClick={onCancel} className="rounded-md px-3 py-2 text-sm text-zinc-300 hover:bg-zinc-800">
-          Cancelar
-        </button>
-        <button
-          type="submit"
-          disabled={saving}
-          className="flex items-center gap-2 rounded-md bg-sky-600 px-3 py-2 text-sm font-medium hover:bg-sky-500 disabled:opacity-60"
-        >
-          {saving && <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />}
-          Salvar
-        </button>
-      </div>
+      <FormActions saving={saving} onCancel={onCancel} error={formError} />
     </form>
-  )
-}
-
-function DeleteConfirm({
-  project,
-  onDone,
-  onCancel,
-}: {
-  project: ProjectDto
-  onDone: () => void
-  onCancel: () => void
-}) {
-  const [busy, setBusy] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-
-  async function confirm() {
-    setBusy(true)
-    setError(null)
-    try {
-      await projectsApi.delete(project.id)
-      onDone()
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Erro ao excluir.')
-      setBusy(false)
-    }
-  }
-
-  return (
-    <div className="space-y-4">
-      <p className="text-sm text-zinc-300">
-        Excluir o projeto <strong>{project.name}</strong>? Todas as sprints, work items e commits dele serão excluídos. Esta ação
-        não pode ser desfeita.
-      </p>
-      {error && (
-        <p className="text-sm text-red-400" role="alert">
-          {error}
-        </p>
-      )}
-      <div className="flex justify-end gap-2">
-        <button type="button" onClick={onCancel} className="rounded-md px-3 py-2 text-sm text-zinc-300 hover:bg-zinc-800">
-          Cancelar
-        </button>
-        <button
-          type="button"
-          onClick={confirm}
-          disabled={busy}
-          className="flex items-center gap-2 rounded-md bg-red-600 px-3 py-2 text-sm font-medium hover:bg-red-500 disabled:opacity-60"
-        >
-          {busy && <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />}
-          Excluir
-        </button>
-      </div>
-    </div>
   )
 }
 
@@ -219,41 +103,17 @@ export default function ProjectsPage() {
     <div className="mx-auto max-w-5xl">
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-2xl font-bold">Projetos</h1>
-        <button
-          type="button"
-          onClick={() => setDialog({ kind: 'create' })}
-          className="flex items-center gap-2 rounded-md bg-sky-600 px-3 py-2 text-sm font-medium hover:bg-sky-500"
-        >
-          <Plus className="h-4 w-4" aria-hidden="true" />
+        <PrimaryButton onClick={() => setDialog({ kind: 'create' })} icon={<Plus className="h-4 w-4" aria-hidden="true" />}>
           Novo projeto
-        </button>
+        </PrimaryButton>
       </div>
 
       {loading && projects.length === 0 ? (
-        <div className="flex items-center gap-2 text-zinc-400">
-          <Loader2 className="h-5 w-5 animate-spin" aria-hidden="true" />
-          Carregando projetos...
-        </div>
+        <LoadingState text="Carregando projetos..." />
       ) : error && projects.length === 0 ? (
-        <div className="flex flex-col items-start gap-3 rounded-lg border border-red-900 bg-red-950/40 p-4 text-red-300">
-          <span className="flex items-center gap-2">
-            <AlertCircle className="h-5 w-5" aria-hidden="true" />
-            {error}
-          </span>
-          <button
-            type="button"
-            onClick={() => void reload()}
-            className="flex items-center gap-2 rounded-md border border-red-800 px-3 py-1.5 text-sm hover:bg-red-900/40"
-          >
-            <RefreshCw className="h-4 w-4" aria-hidden="true" />
-            Tentar novamente
-          </button>
-        </div>
+        <ErrorState message={error} onRetry={() => void reload()} />
       ) : projects.length === 0 ? (
-        <div className="flex flex-col items-center gap-3 rounded-lg border border-dashed border-zinc-800 p-10 text-center text-zinc-400">
-          <FolderKanban className="h-10 w-10 text-zinc-600" aria-hidden="true" />
-          Nenhum projeto ainda. Crie o primeiro.
-        </div>
+        <EmptyState icon={FolderKanban}>Nenhum projeto ainda. Crie o primeiro.</EmptyState>
       ) : (
         <ul className="grid gap-3 sm:grid-cols-2">
           {projects.map((p) => (
@@ -313,7 +173,17 @@ export default function ProjectsPage() {
       )}
       {dialog?.kind === 'delete' && (
         <Modal title="Excluir projeto" onClose={close}>
-          <DeleteConfirm project={dialog.project} onDone={afterDelete} onCancel={close} />
+          <ConfirmDelete
+            message={
+              <p>
+                Excluir o projeto <strong>{dialog.project.name}</strong>? Todas as sprints, work items e commits dele serão
+                excluídos. Esta ação não pode ser desfeita.
+              </p>
+            }
+            onConfirm={() => projectsApi.delete(dialog.project.id)}
+            onDone={afterDelete}
+            onCancel={close}
+          />
         </Modal>
       )}
     </div>
