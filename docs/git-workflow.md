@@ -19,3 +19,7 @@ Regras definidas pelo dono do projeto. Valem para qualquer pessoa ou agente de I
 ## Remoto
 
 - `origin`: https://github.com/marcalsantarem/m-ops.git
+
+## Ambientes publicados (a partir da branch `dev`)
+- API: https://mops-api-n2ql.onrender.com
+- Front: https://m-ops.netlify.app
